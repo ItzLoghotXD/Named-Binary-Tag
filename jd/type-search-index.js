@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"me.itzloghotxd.nbt","l":"AbstractTag"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"me.itzloghotxd.nbt","l":"Tag"},{"p":"me.itzloghotxd.nbt","l":"TagType"}];updateSearchResults();
