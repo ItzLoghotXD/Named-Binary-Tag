@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"me.itzloghotxd.nbt"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"me.itzloghotxd.nbt"},{"l":"me.itzloghotxd.nbt.tags"}];updateSearchResults();

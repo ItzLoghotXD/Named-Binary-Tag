@@ -10,7 +10,7 @@
 
 package me.itzloghotxd.nbt;
 
-//import me.itzloghotxd.nbt.tags.ByteTag;
+import me.itzloghotxd.nbt.tags.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public enum TagType {
     /** Represents a signed 16-bit {@link Short} integer value. */
     SHORT(2, "SHORT"),
     /** Represents a signed 32-bit {@link Integer} value. */
-    INT(3, "INT"),
+    INT(3, "INTEGER"),
     /** Represents a signed 64-bit {@link Long} integer value. */
     LONG(4, "LONG"),
     /** Represents a 32-bit {@link Float}ing point value. */
@@ -47,7 +47,7 @@ public enum TagType {
     /** Represents a map-like collection of named {@link Tag}s. */
     COMPOUND(10, "COMPOUND"),
     /** Represents an array of {@link Integer} values. */
-    INT_ARRAY(11, "INT_ARRAY"),
+    INT_ARRAY(11, "INTEGER_ARRAY"),
     /** Represents an array of {@link Long} values. */
     LONG_ARRAY(12, "LONG_ARRAY");
 //    /** */
@@ -107,29 +107,28 @@ public enum TagType {
     }
 
 
-//    /**
-//     * Creates a new, instance of a {@link Tag} corresponding to the specified {@code TagType}
-//     * with its corresponding value and null name.
-//     *
-//     * @param type The {@code  TagType} of the {@link Tag} to create
-//     * @return A new instance of the corresponding {@link Tag} implementation
-//     */
-//    @SuppressWarnings("DuplicateBranchesInSwitch")
-//    public static Tag<?> createByType(TagType type) {
-//        return switch (type) {
-//            case END -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case BYTE -> new ByteTag((byte) 0);
-//            case SHORT -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case INT -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case LONG -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case FLOAT -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case DOUBLE -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case BYTE_ARRAY -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case STRING -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case LIST -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case COMPOUND -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case INT_ARRAY -> throw new UnsupportedOperationException("Not Supported YET!");
-//            case LONG_ARRAY -> throw new UnsupportedOperationException("Not Supported YET!");
-//        };
-//    }
+    /**
+     * Creates a new, instance of a {@link Tag} corresponding to the specified {@code TagType}
+     * with its corresponding value and empty name.
+     *
+     * @param type The {@code  TagType} of the {@link Tag} to create
+     * @return A new instance of the corresponding {@link Tag} implementation
+     */
+    public static Tag<?> createByType(TagType type) {
+        return switch (type) {
+            case END -> throw new UnsupportedOperationException("Not Supported YET!");
+            case BYTE -> new ByteTag((byte) 0);
+            case SHORT -> new ShortTag((short) 0);
+            case INT -> new IntegerTag(0);
+            case LONG -> new LongTag(0L);
+            case FLOAT -> new FloatTag(0F);
+            case DOUBLE -> new DoubleTag(0D);
+            case BYTE_ARRAY -> new ByteArrayTag(new byte[]{});
+            case STRING -> new StringTag("");
+            case LIST -> throw new UnsupportedOperationException("Not Supported YET!");
+            case COMPOUND -> throw new UnsupportedOperationException("Not Supported YET!");
+            case INT_ARRAY -> new IntegerArrayTag(new int[]{});
+            case LONG_ARRAY -> new LongArrayTag(new long[]{});
+        };
+    }
 }

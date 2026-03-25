@@ -11,7 +11,6 @@
 package me.itzloghotxd.nbt;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -28,7 +27,7 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public interface Tag<T> extends Serializable, Cloneable {
+public interface Tag<T> extends Serializable {
 
     /**
      * Gets the type of this tag.
@@ -40,19 +39,19 @@ public interface Tag<T> extends Serializable, Cloneable {
 
     /**
      * Gets the name of this tag. In some contexts, like elements
-     * inside a ListTag, the name may be null.
+     * inside a ListTag, the name may be empty string {@code ""}.
      *
-     * @return The name of the tag, or {@code null} if unnamed
+     * @return The name of the tag, or empty string {@code ""} if unnamed
      */
-    @Nullable
+    @NotNull
     String getName();
 
     /**
      * Sets the name of this tag.
      *
-     * @param name The new name for this tag, can be {@code null}
+     * @param name The new name for this tag
      */
-    void setName(@Nullable String name);
+    void setName(@NotNull String name);
 
     /**
      * Gets the value stored in this tag.
