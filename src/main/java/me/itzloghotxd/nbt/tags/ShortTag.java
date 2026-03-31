@@ -61,7 +61,6 @@ public class ShortTag extends AbstractTag<Short> {
      */
     @Override
     public void serialize(@NotNull DataOutput output) throws IOException {
-        output.writeUTF(getName());
         output.writeShort(getValue());
     }
 
@@ -70,7 +69,6 @@ public class ShortTag extends AbstractTag<Short> {
      */
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
-        setName(input.readUTF());
         setValue(input.readShort());
     }
 

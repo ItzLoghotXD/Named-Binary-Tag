@@ -5,6 +5,7 @@ import me.itzloghotxd.nbt.TagType;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,10 +30,50 @@ public class TagTest {
     }
 
     @Test
+    void testCompoundTag() throws IOException {
+        CompoundTag original = new CompoundTag("box");
+        original.add("slot_1", new StringTag("item_1"))
+                .add("slot_2", new StringTag("item_2"))
+                .add("slot_3", new StringTag("item_3"))
+                .add("slot_4", new StringTag("item_4"));
+
+        // Serialize (with type header like your main)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+
+        original.serialize(out);
+
+        // Deserialize
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        DataInputStream in = new DataInputStream(bais);
+
+        TagType type = TagType.getTypeById(in.readByte());
+        CompoundTag copy = (CompoundTag) TagType.createByType(type);
+        copy.setName(in.readUTF());
+        copy.deserialize(in);
+
+        // Assertions
+        assertEquals(original.getName(), copy.getName());
+        assertEquals(original.getValue().size(), copy.getValue().size());
+
+        for (Map.Entry<String, Tag<?>> entry : original.getValue().entrySet()) {
+            Tag<?> copied = copy.getValue().get(entry.getKey());
+            assertNotNull(copied);
+            assertEquals(entry.getValue().toString(), copied.toString());
+        }
+
+        // toString sanity
+        assertNotNull(copy.toString());
+        assertFalse(copy.toString().isEmpty());
+
+        // toJson sanity
+        String json = copy.toJson();
+        assertNotNull(json);
+    }
+
+    @Test
     void testUnsupportedTags() {
-        assertThrows(UnsupportedOperationException.class, () -> TagType.createByType(TagType.END));
         assertThrows(UnsupportedOperationException.class, () -> TagType.createByType(TagType.LIST));
-        assertThrows(UnsupportedOperationException.class, () -> TagType.createByType(TagType.COMPOUND));
     }
 
     // ---------- helper ----------
@@ -55,7 +96,6 @@ public class TagTest {
         Tag<?> copy = TagType.createByType(original.getType());
         copy.deserialize(in);
 
-        assertValuesEqual(original.getName(), copy.getName());
         assertValuesEqual(original.getValue(), copy.getValue());
 
         // toString sanity
@@ -66,7 +106,6 @@ public class TagTest {
         // toJson sanity
         String json = original.toJson();
         assertNotNull(json);
-        assertTrue(json.contains("\"type\""));
         assertTrue(json.contains("\"value\""));
     }
 

@@ -57,7 +57,6 @@ public class IntegerArrayTag extends AbstractTag<int[]> {
 
     @Override
     public void serialize(@NotNull DataOutput output) throws IOException {
-        output.writeUTF(getName());
         output.writeInt(getValue().length);
         for (int i : getValue()) {
             output.writeInt(i);
@@ -66,7 +65,6 @@ public class IntegerArrayTag extends AbstractTag<int[]> {
 
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
-        setName(input.readUTF());
         int length = input.readInt();
         int[] data = new int[length];
         for (int i = 0; i < length; i++) {

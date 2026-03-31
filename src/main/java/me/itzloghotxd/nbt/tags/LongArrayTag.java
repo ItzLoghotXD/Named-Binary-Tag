@@ -63,7 +63,6 @@ public class LongArrayTag extends AbstractTag<long[]> {
      */
     @Override
     public void serialize(@NotNull DataOutput output) throws IOException {
-        output.writeUTF(getName());
         output.writeInt(getValue().length);
         for (long i : getValue()) {
             output.writeLong(i);
@@ -75,7 +74,6 @@ public class LongArrayTag extends AbstractTag<long[]> {
      */
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
-        setName(input.readUTF());
         int length = input.readInt();
         long[] data = new long[length];
         for (int i = 0; i < length; i++) {

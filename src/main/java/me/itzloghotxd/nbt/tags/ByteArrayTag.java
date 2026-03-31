@@ -64,7 +64,6 @@ public class ByteArrayTag extends AbstractTag<byte[]> {
      */
     @Override
     public void serialize(@NotNull DataOutput output) throws IOException {
-        output.writeUTF(getName());
         output.writeInt(getValue().length);
         output.write(getValue());
     }
@@ -74,7 +73,6 @@ public class ByteArrayTag extends AbstractTag<byte[]> {
      */
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
-        setName(input.readUTF());
         int length = input.readInt();
         byte[] data = new byte[length];
         input.readFully(data);

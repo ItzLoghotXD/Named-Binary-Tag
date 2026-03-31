@@ -22,7 +22,6 @@ import java.util.List;
  * @author ItzLoghotXD
  * @since 1.0.0
  */
-@SuppressWarnings("unused")
 public enum TagType {
     /** Represents the end of a {@code CompoundTag} structure. */
     END(0, "END"),
@@ -50,16 +49,6 @@ public enum TagType {
     INT_ARRAY(11, "INTEGER_ARRAY"),
     /** Represents an array of {@link Long} values. */
     LONG_ARRAY(12, "LONG_ARRAY");
-//    /** */
-//    BOOLEAN(13, "BOOLEAN"),
-//    /** */
-//    SHORT_ARRAY(14, "SHORT ARRAY"),
-//    /** */
-//    FLOAT_ARRAY(15, "FLOAT ARRAY"),
-//    /** */
-//    DOUBLE_ARRAY(16, "DOUBLE ARRAY"),
-//    /** */
-//    STRING_ARRAY(17, "STRING ARRAY");
 
     private final int id;
     @NotNull
@@ -111,12 +100,12 @@ public enum TagType {
      * Creates a new, instance of a {@link Tag} corresponding to the specified {@code TagType}
      * with its corresponding value and empty name.
      *
-     * @param type The {@code  TagType} of the {@link Tag} to create
+     * @param type The {@code TagType} of the {@link Tag} to create
      * @return A new instance of the corresponding {@link Tag} implementation
      */
     public static Tag<?> createByType(TagType type) {
         return switch (type) {
-            case END -> throw new UnsupportedOperationException("Not Supported YET!");
+            case END -> throw new UnsupportedOperationException();
             case BYTE -> new ByteTag((byte) 0);
             case SHORT -> new ShortTag((short) 0);
             case INT -> new IntegerTag(0);
@@ -126,7 +115,7 @@ public enum TagType {
             case BYTE_ARRAY -> new ByteArrayTag(new byte[]{});
             case STRING -> new StringTag("");
             case LIST -> throw new UnsupportedOperationException("Not Supported YET!");
-            case COMPOUND -> throw new UnsupportedOperationException("Not Supported YET!");
+            case COMPOUND -> new CompoundTag();
             case INT_ARRAY -> new IntegerArrayTag(new int[]{});
             case LONG_ARRAY -> new LongArrayTag(new long[]{});
         };

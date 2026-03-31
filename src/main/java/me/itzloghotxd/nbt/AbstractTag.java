@@ -19,22 +19,23 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * An implementation of the {@link Tag} interface.
- * This class handles the common storage and retrieval of the Tag's name and value,
- * as well as standard {@code equals}, {@code hashCode}, and {@code toString} implementations.
+ * Abstract implementation of the {@link Tag} interface that provides common functionality
+ * for all NBT tag types. This class handles the basic name and value storage that
+ * all tags share.
  *
  * @param <T> The type of the value this tag holds
  * @author ItzLoghotXD
  * @since 1.0.0
  */
-//@SuppressWarnings("unused")
 public abstract class AbstractTag<T> implements Tag<T> {
 
     /**
+     * name of the tag
      */
     @NotNull
     protected String name;
     /**
+     * value of the tag
      */
     @NotNull
     protected T value;
@@ -119,79 +120,18 @@ public abstract class AbstractTag<T> implements Tag<T> {
     public abstract @NotNull Tag<T> clone();
 
     /**
-     * Converts this tag into its JSON string representation.
-     * <p>
-     * The resulting JSON includes the tag's type, name, and value in the following format:
-     * </p>
-     *
-     * <pre>
-     * {
-     *   "type": "TYPE_NAME",
-     *   "name": "TAG_NAME",
-     *   "value": VALUE
-     * }
-     * </pre>
-     *
-     * <p>
-     * The value is serialized using {@link #valueToJson()}, which may be overridden
-     * by subclasses to support complex or nested data structures such as lists or compounds.
-     * String values are properly escaped using {@link #escape(String)} to ensure valid JSON output.
-     * </p>
-     *
-     * <p>
-     * Subclasses generally do not need to override this method unless they require
-     * a completely custom JSON structure.
-     * </p>
-     *
-     * @return A valid JSON string representation of this tag (never {@code null})
+     * {@inheritDoc}
      */
     @Override
     public @NotNull String toJson() {
-        return "{\"type\":\"" + getType().getName() + "\"," +
-                "\"name\":\"" + escape(name) + "\"," +
-                "\"value\":" + valueToJson() + "}";
+        return "{\"value\":" + valueToJson() + "}";
     }
 
     /**
-     * Escapes special characters in a string to make it safe for inclusion in JSON.
-     * <p>
-     * This method currently escapes:
-     * <ul>
-     *     <li>Backslashes ({@code \}) → {@code \\}</li>
-     *     <li>Double quotes ({@code "}) → {@code \"}</li>
-     * </ul>
-     * <p>
-     * This ensures that the resulting string does not break JSON syntax.
-     * Additional escaping rules (e.g., control characters) may be added if needed.
-     *
-     * @param s The input string to escape, must not be {@code null}
-     * @return The escaped string safe for JSON output
-     */
-    protected @NotNull String escape(@NotNull String s) {
-        return s.replace("\\", "\\\\")
-                .replace("\"", "\\\"");
-    }
-
-    /**
-     * Converts the underlying value of this tag into a valid JSON representation.
-     * <p>
-     * This method is used internally by {@link #toJson()} to serialize the tag's value.
-     * Primitive types are converted using {@link String#valueOf(Object)}, while
-     * special handling is applied for certain types:
-     * <ul>
-     *     <li>{@link String} values are wrapped in double quotes and escaped</li>
-     *     <li>Primitive arrays (e.g., {@code byte[]}, {@code int[]}, {@code long[]}) are
-     *     converted using {@link java.util.Arrays#toString(Object[])}</li>
-     * </ul>
-     * <p>
-     * Complex tag types (e.g., List or Compound tags) should override this method
-     * to provide proper recursive JSON serialization.
-     *
-     * @return A JSON-formatted string representing the value of this tag
      */
     protected @NotNull String valueToJson() {
         if (value instanceof String s) {
-            return "\"" + escape(s) + "\"";
+            return "\"" + s + "\"";
         } else if (value instanceof byte[] b) {
             return Arrays.toString(b);
         } else if (value instanceof int[] i) {
@@ -204,8 +144,6 @@ public abstract class AbstractTag<T> implements Tag<T> {
 
     /**
      * Returns a string representation of this tag.
-     * Complex Tags like Compound, List Tag should override this to provide
-     * recursive string formatting.
      *
      * @return String representation in format 'TAG_{TYPE}({NAME}):{VALUE}'.
      */
@@ -245,6 +183,8 @@ public abstract class AbstractTag<T> implements Tag<T> {
                 && valuesEqual(this.value, that.value);
     }
 
+    /**
+     */
     private static boolean valuesEqual(Object a, Object b) {
         if (a instanceof byte[] a1 && b instanceof byte[] b1) return Arrays.equals(a1, b1);
         if (a instanceof int[] a1 && b instanceof int[] b1) return Arrays.equals(a1, b1);

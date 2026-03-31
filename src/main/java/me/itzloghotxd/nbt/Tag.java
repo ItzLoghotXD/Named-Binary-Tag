@@ -22,7 +22,7 @@ import java.io.Serializable;
  * NBT is a binary format designed to store data in a compact and structured way,
  * commonly used for saving structured data.
  *
- * @param <T> The type of the underlying value this tag holds (e.g., Integer, String, List)
+ * @param <T> The type of value this tag holds
  * @author ItzLoghotXD
  * @since 1.0.0
  */
@@ -38,8 +38,7 @@ public interface Tag<T> extends Serializable {
     TagType getType();
 
     /**
-     * Gets the name of this tag. In some contexts, like elements
-     * inside a ListTag, the name may be empty string {@code ""}.
+     * Gets the name of this tag.
      *
      * @return The name of the tag, or empty string {@code ""} if unnamed
      */
