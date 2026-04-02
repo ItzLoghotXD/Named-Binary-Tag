@@ -23,6 +23,8 @@ public class CT {
                 .add("b", new CompoundTag().add("?", new StringTag("huh?")));
 
         try {
+            out.writeByte(tag.getType().getId());
+            out.writeUTF(tag.getName());
             tag.serialize(out);
             in = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
         } catch (IOException e) {

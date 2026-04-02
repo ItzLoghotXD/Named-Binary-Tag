@@ -41,6 +41,8 @@ public class TagTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(baos);
 
+        out.writeByte(original.getType().getId());
+        out.writeUTF(original.getName());
         original.serialize(out);
 
         // Deserialize
@@ -72,8 +74,76 @@ public class TagTest {
     }
 
     @Test
-    void testUnsupportedTags() {
-        assertThrows(UnsupportedOperationException.class, () -> TagType.createByType(TagType.LIST));
+    void testListTag() throws IOException {
+        CompoundTag original = new CompoundTag();
+
+        original.add("0", new ListTag<CompoundTag>().add(
+                new CompoundTag().add("id", new StringTag("minecraft:wooden_axe"))
+                        .add("tag", new CompoundTag().add("Damage", new IntegerTag(0)))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:light_blue_concrete"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:redstone"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:repeater"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:redstone_torch"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:comparator"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:stone_button"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:lever"))
+                        .add("Count", new ByteTag((byte) 1)),
+
+                new CompoundTag().add("id", new StringTag("minecraft:redstone_lamp"))
+                        .add("Count", new ByteTag((byte) 1))
+        )).add("DataVersion", new IntegerTag(2586));
+
+        // Serialize
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+
+        out.writeByte(original.getType().getId());
+        out.writeUTF(original.getName());
+        original.serialize(out);
+
+        // Deserialize
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        DataInputStream in = new DataInputStream(bais);
+
+        TagType type = TagType.getTypeById(in.readByte());
+        CompoundTag copy = (CompoundTag) TagType.createByType(type);
+        copy.setName(in.readUTF());
+        copy.deserialize(in);
+
+        // Basic assertions
+        assertEquals(original.getValue().size(), copy.getValue().size());
+        assertEquals(original.toJson(), copy.toJson());
+
+        // Ensure list exists
+        Tag<?> listTag = copy.getValue().get("0");
+        assertNotNull(listTag);
+        assertInstanceOf(ListTag.class, listTag);
+
+        ListTag<?> list = (ListTag<?>) listTag;
+        assertEquals(9, list.getValue().size());
+
+        // Check one deep value
+        CompoundTag firstItem = (CompoundTag) list.getValue().get(0);
+        assertEquals("minecraft:wooden_axe",
+                ((StringTag) firstItem.getValue().get("id")).getValue());
+
+        // toString sanity
+        assertNotNull(copy.toString());
+        assertFalse(copy.toString().isEmpty());
     }
 
     // ---------- helper ----------

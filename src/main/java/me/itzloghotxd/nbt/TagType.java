@@ -114,7 +114,7 @@ public enum TagType {
             case DOUBLE -> new DoubleTag(0D);
             case BYTE_ARRAY -> new ByteArrayTag(new byte[]{});
             case STRING -> new StringTag("");
-            case LIST -> throw new UnsupportedOperationException("Not Supported YET!");
+            case LIST -> new ListTag<>();
             case COMPOUND -> new CompoundTag();
             case INT_ARRAY -> new IntegerArrayTag(new int[]{});
             case LONG_ARRAY -> new LongArrayTag(new long[]{});

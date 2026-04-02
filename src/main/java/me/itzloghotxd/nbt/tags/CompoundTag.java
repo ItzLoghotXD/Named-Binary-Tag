@@ -42,7 +42,7 @@ public class CompoundTag extends AbstractTag<Map<String, Tag<?>>> {
     }
 
     /**
-     * Constructs a new unnamed tag with the specified value.y
+     * Constructs a new unnamed tag with the specified value.
      */
     public CompoundTag() {
         super(new LinkedHashMap<>());
@@ -61,14 +61,10 @@ public class CompoundTag extends AbstractTag<Map<String, Tag<?>>> {
      */
     @Override
     public void serialize(@NotNull DataOutput output) throws IOException {
-        output.writeByte(getType().getId());
-        output.writeUTF(getName());
         for (Map.Entry<String, Tag<?>> entry : getValue().entrySet()) {
             Tag<?> tag = entry.getValue();
-            if (!(tag instanceof CompoundTag)) {
-                output.writeByte(tag.getType().getId());
-                output.writeUTF(entry.getKey());
-            }
+            output.writeByte(tag.getType().getId());
+            output.writeUTF(entry.getKey());
             tag.serialize(output);
         }
         output.writeByte(TagType.END.getId());
@@ -80,7 +76,7 @@ public class CompoundTag extends AbstractTag<Map<String, Tag<?>>> {
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
         while (true) {
-            int id = input.readByte();
+            byte id = input.readByte();
             if (id == TagType.END.getId()) break;
 
             Tag<?> tag = TagType.createByType(TagType.getTypeById(id));
@@ -178,30 +174,19 @@ public class CompoundTag extends AbstractTag<Map<String, Tag<?>>> {
 
         boolean first = true;
         for (Map.Entry<String, Tag<?>> entry : getValue().entrySet()) {
-            if (!first) json.append(", ");
+            if (!first) json.append(",");
             first = false;
 
             Tag<?> tag = entry.getValue();
 
-            json.append("\"").append(tag.getName()).append("\": ");
+            json.append("\"").append(tag.getName()).append("\":");
 
             if (tag instanceof CompoundTag || tag.getValue() instanceof Map) {
                 json.append(tag.toJson());
+            } else if (tag instanceof ListTag<?>) {
+                json.append(tag.toJson());
             } else if (tag.getValue() instanceof String) {
-                json.append("\"").append(tag.getValue()).append("\"");
-//            } else if (tag.getValue() instanceof Iterable) {
-//                json.append("[");
-//                if (tag instanceof ListTag<?> listTag) {
-//                    for (int i = 0; i < listTag.getValue().size(); i++) {
-//                        if (listTag.getValue().get(i).getValue() instanceof String) {
-//                            json.append("\"").append(listTag.getValue().get(i).getValue()).append("\"");
-//                        } else {
-//                            json.append(listTag.getValue().get(i).getValue());
-//                        }
-//                        if (i < listTag.getValue().size() - 1) json.append(", ");
-//                    }
-//                }
-//                json.append("]");
+                json.append("\"").append(escape((String) tag.getValue())).append("\"");
             } else if (tag instanceof ByteArrayTag byteArrayTag) {
                 json.append(Arrays.toString(byteArrayTag.getValue()));
             } else if (tag instanceof IntegerArrayTag intArrayTag) {

@@ -124,14 +124,14 @@ public abstract class AbstractTag<T> implements Tag<T> {
      */
     @Override
     public @NotNull String toJson() {
-        return "{\"value\":" + valueToJson() + "}";
+        return "{\"value\": " + valueToJson() + "}";
     }
 
     /**
      */
     protected @NotNull String valueToJson() {
         if (value instanceof String s) {
-            return "\"" + s + "\"";
+            return "\"" + escape(s) + "\"";
         } else if (value instanceof byte[] b) {
             return Arrays.toString(b);
         } else if (value instanceof int[] i) {
@@ -140,6 +140,11 @@ public abstract class AbstractTag<T> implements Tag<T> {
             return Arrays.toString(loghot);
         }
         return String.valueOf(value);
+    }
+
+    protected @NotNull String escape(@NotNull String s) {
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     /**
