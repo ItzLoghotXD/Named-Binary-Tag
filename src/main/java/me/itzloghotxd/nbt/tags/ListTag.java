@@ -77,7 +77,7 @@ public class ListTag<E extends Tag<?>> extends AbstractTag<List<E>> {
     public void deserialize(@NotNull DataInput input) throws IOException {
         getValue().clear();
 
-        byte id = input.readByte();
+        byte id = (byte) input.readUnsignedByte();
         int length = input.readInt();
 
         this.elementType = id != 0 ? TagType.getTypeById(id) : null;

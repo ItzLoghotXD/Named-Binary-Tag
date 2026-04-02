@@ -49,7 +49,7 @@ public class TagTest {
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         DataInputStream in = new DataInputStream(bais);
 
-        TagType type = TagType.getTypeById(in.readByte());
+        TagType type = TagType.getTypeById(in.readUnsignedByte());
         CompoundTag copy = (CompoundTag) TagType.createByType(type);
         copy.setName(in.readUTF());
         copy.deserialize(in);
@@ -119,7 +119,7 @@ public class TagTest {
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         DataInputStream in = new DataInputStream(bais);
 
-        TagType type = TagType.getTypeById(in.readByte());
+        TagType type = TagType.getTypeById(in.readUnsignedByte());
         CompoundTag copy = (CompoundTag) TagType.createByType(type);
         copy.setName(in.readUTF());
         copy.deserialize(in);

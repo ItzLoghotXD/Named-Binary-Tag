@@ -69,7 +69,7 @@ public class ByteTag extends AbstractTag<Byte> {
      */
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
-        setValue(input.readByte());
+        setValue((byte) input.readUnsignedByte());
     }
 
     /**

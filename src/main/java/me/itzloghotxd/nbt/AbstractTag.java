@@ -33,12 +33,12 @@ public abstract class AbstractTag<T> implements Tag<T> {
      * name of the tag
      */
     @NotNull
-    protected String name;
+    private String name;
     /**
      * value of the tag
      */
     @NotNull
-    protected T value;
+    private T value;
 
     /**
      * Constructs a new tag with the specified name and value.

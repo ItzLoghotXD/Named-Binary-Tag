@@ -76,7 +76,7 @@ public class CompoundTag extends AbstractTag<Map<String, Tag<?>>> {
     @Override
     public void deserialize(@NotNull DataInput input) throws IOException {
         while (true) {
-            byte id = input.readByte();
+            byte id = (byte) input.readUnsignedByte();
             if (id == TagType.END.getId()) break;
 
             Tag<?> tag = TagType.createByType(TagType.getTypeById(id));
@@ -107,7 +107,6 @@ public class CompoundTag extends AbstractTag<Map<String, Tag<?>>> {
      * @param tag The {@link Tag} to store
      * @return a reference to this tag
      */
-    @SuppressWarnings("UnusedReturnValue")
     public CompoundTag add(String key, Tag<?> tag) {
         tag.setName(key);
         getValue().put(key, tag);

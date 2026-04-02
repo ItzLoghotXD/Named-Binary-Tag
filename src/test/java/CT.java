@@ -34,7 +34,7 @@ public class CT {
 
     static void t() {
         try {
-            CompoundTag cTag = (CompoundTag) TagType.createByType(TagType.getTypeById(in.readByte()));
+            CompoundTag cTag = (CompoundTag) TagType.createByType(TagType.getTypeById(in.readUnsignedByte()));
             cTag.setName(in.readUTF());
             cTag.deserialize(in);
 

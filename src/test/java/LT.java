@@ -41,7 +41,7 @@ public class LT {
         DataInput in = new DataInputStream(new ByteArrayInputStream(memoryBuffer.toByteArray()));
 
         try {
-            CompoundTag tag = (CompoundTag) TagType.createByType(TagType.getTypeById(in.readByte()));
+            CompoundTag tag = (CompoundTag) TagType.createByType(TagType.getTypeById(in.readUnsignedByte()));
             tag.setName(in.readUTF());
             tag.deserialize(in);
 
