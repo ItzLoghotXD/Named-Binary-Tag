@@ -24,9 +24,26 @@ public class TagTest {
 
     @Test
     void testArrayTags() throws IOException {
-        testTag(new ByteArrayTag("bytes", new byte[]{1, 2, 3}));
-        testTag(new IntegerArrayTag("ints", new int[]{4, 5, 6}));
-        testTag(new LongArrayTag("longs", new long[]{7L, 8L, 9L}));
+        ByteArrayTag byteArrayTag = new ByteArrayTag("name", new byte[]{1});
+        ByteArrayTag byteArrayTagClone = (ByteArrayTag) byteArrayTag.clone();
+        byteArrayTagClone.getValue()[0] = 2;
+        testTag(byteArrayTag);
+        testTag(byteArrayTagClone);
+        assertNotEquals(byteArrayTag.getValue()[0], byteArrayTagClone.getValue()[0], "Clone should not reflect changes to original array");
+
+        IntegerArrayTag integerArrayTag = new IntegerArrayTag("name", new int[]{2});
+        IntegerArrayTag integerArrayTagClone = (IntegerArrayTag) integerArrayTag.clone();
+        integerArrayTagClone.getValue()[0] = 3;
+        testTag(integerArrayTag);
+        testTag(integerArrayTag);
+        assertNotEquals(integerArrayTag.getValue()[0], integerArrayTagClone.getValue()[0], "Clone should not reflect changes to original array");
+
+        LongArrayTag longArrayTag = new LongArrayTag("name", new long[]{3L});
+        LongArrayTag longArrayTagClone = (LongArrayTag) longArrayTag.clone();
+        longArrayTagClone.getValue()[0] = 4;
+        testTag(longArrayTag);
+        testTag(longArrayTagClone);
+        assertNotEquals(longArrayTag.getValue()[0], longArrayTagClone.getValue()[0], "Clone should not reflect changes to original array");
     }
 
     @Test

@@ -87,6 +87,6 @@ public class LongArrayTag extends AbstractTag<long[]> {
      */
     @Override
     public @NotNull Tag<long[]> clone() {
-        return new LongArrayTag(getName(), getValue());
+        return new LongArrayTag(getName(), getValue().clone());
     }
 }

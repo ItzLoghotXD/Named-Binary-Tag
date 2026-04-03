@@ -31,6 +31,7 @@ public class TagIO {
      *
      * @param file the file to write
      * @param tag the tag to store in the file
+     * @param compress whether to compress or not
      * @throws IOException If an I/O error occurs
      */
     public static void serialize(File file, CompoundTag tag, boolean compress) throws IOException {

@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * The {@code Tag} interface represents a generic Named Binary Tag (NBT) element.
@@ -27,7 +26,7 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public interface Tag<T> extends Serializable {
+public interface Tag<T> {
 
     /**
      * Gets the type of this tag.
