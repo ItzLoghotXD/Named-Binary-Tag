@@ -1,7 +1,7 @@
 # Named Binary Tag (NBT) Library
 
 <div align="center">
-  <img src="https://img.shields.io/github/actions/workflow/status/ItzLoghotXD/ItzLoghotXD/java-ci.yml?style=for-the-badge" height="25" alt="GitHub Actions Workflow Status">
+  <img src="https://img.shields.io/github/actions/workflow/status/ItzLoghotXD/Named-Binary-Tag/java-ci.yml?style=for-the-badge" height="25" alt="GitHub Actions Workflow Status">
 </div>
 
 **Named Binary Tag (NBT)** is a tag-based binary data format, created by Notch. This Java library provides a convenient API to create, serialize, and deserialize NBT data structures in your applications.
